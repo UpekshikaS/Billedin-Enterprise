@@ -4,6 +4,11 @@ from flask_jwt_extended import JWTManager
 from auth import auth
 import os
 from dotenv import load_dotenv
+from routes.invoices import invoices
+app.register_blueprint(invoices)
+from routes.admin import admin
+app.register_blueprint(admin)
+
 
 load_dotenv()
 

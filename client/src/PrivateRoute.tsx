@@ -1,11 +1,13 @@
+import React, { ReactElement } from "react";
 import { Navigate } from "react-router-dom";
-import React from "react";
 
 interface Props {
-  children: React.ReactNode;
+  children: ReactElement;
 }
 
-export default function PrivateRoute({ children }: Props) {
+const PrivateRoute = ({ children }: Props): ReactElement => {
   const token = localStorage.getItem("token");
   return token ? children : <Navigate to="/" replace />;
-}
+};
+
+export default PrivateRoute;

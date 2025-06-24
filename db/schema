@@ -14,3 +14,18 @@ CREATE TABLE products (
     price DECIMAL(10,2),
     stock INT
 );
+
+CREATE TABLE invoices (
+  id SERIAL PRIMARY KEY,
+  user_id INT NOT NULL,
+  total_amount DECIMAL(10, 2) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE invoice_items (
+  id SERIAL PRIMARY KEY,
+  invoice_id INT REFERENCES invoices(id) ON DELETE CASCADE,
+  product_id INT NOT NULL,
+  quantity INT NOT NULL,
+  price DECIMAL(10, 2) NOT NULL
+);
