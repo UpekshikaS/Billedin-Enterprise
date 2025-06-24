@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 import psycopg2
+from middleware.subscription_check import subscription_required
 
 invoices = Blueprint('invoices', __name__)
 

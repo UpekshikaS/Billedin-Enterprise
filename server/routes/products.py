@@ -3,6 +3,14 @@ from flask import Blueprint, jsonify
 from flask_jwt_extended import jwt_required
 import psycopg2
 from psycopg2.extras import RealDictCursor
+from middleware.subscription_check import subscription_required
+
+@products.route('/api/products', methods=['GET'])
+@jwt_required()
+@subscription_required
+def get_products():
+    ...
+
 
 products = Blueprint('products', __name__)
 
