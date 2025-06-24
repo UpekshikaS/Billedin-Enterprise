@@ -13,8 +13,8 @@ def get_summary():
     try:
         conn = psycopg2.connect(
             dbname="billedin_db",
-            user="your_db_user",
-            password="your_db_pass",
+            user="postgres",
+            password="yEarth@123#456",
             host="localhost"
         )
         cur = conn.cursor()
