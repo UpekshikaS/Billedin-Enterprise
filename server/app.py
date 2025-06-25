@@ -71,6 +71,7 @@ from auth import auth
 from routes.invoices import invoices
 from routes.stats import stats
 from routes.admin import admin
+app.register_blueprint(admin)
 
 load_dotenv()
 

@@ -49,3 +49,39 @@ def login():
     })
 
     return jsonify(access_token=access_token), 200
+
+# ✅ Register endpoint
+@auth.route('/api/register', methods=['POST'])
+def register():
+    data = request.get_json()
+    email = data.get("email")
+    password = data.get("password")
+    name = data.get("name")
+
+    if not all([email, password, name]):
+        return jsonify({"message": "All fields are required"}), 400
+
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+
+        cur.execute("SELECT id FROM users WHERE email = %s", (email,))
+        if cur.fetchone():
+            return jsonify({"message": "Email already registered"}), 409
+
+        cur.execute("""
+            INSERT INTO users (email, password, full_name, role, subscription_active)
+            VALUES (%s, %s, %s, %s, %s)
+        """, (email, hashed_password, name, 'user', True))
+
+        conn.commit()
+        cur.close()
+        conn.close()
+
+        return jsonify({"message": "Registration successful"}), 201
+
+    except Exception as e:
+        print("Registration Error:", e)
+        return jsonify({"message": "Server error"}), 500

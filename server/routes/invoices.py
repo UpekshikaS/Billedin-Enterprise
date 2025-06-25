@@ -1,12 +1,14 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 import psycopg2
-from middleware.subscription_check import subscription_required
+
+from middleware.subscription_check import subscription_required  # Ensure this is the correct path
 
 invoices = Blueprint('invoices', __name__)
 
 @invoices.route('/api/invoices', methods=['POST'])
 @jwt_required()
+@subscription_required  # ✅ Subscription check added here
 def create_invoice():
     user = get_jwt_identity()
     data = request.get_json()
